@@ -97,6 +97,7 @@ public class MainActivity extends BasicActivity {                               
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
+
                         case R.id.home:
                             HomeFragment homeFragment = new HomeFragment();
                             getSupportFragmentManager().beginTransaction()
