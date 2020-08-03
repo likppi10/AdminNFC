@@ -8,9 +8,10 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 
 import com.example.sns_project_nfc.R;
-import com.example.sns_project_nfc.fragment.HomeFragment;
+import com.example.sns_project_nfc.fragment.AnnounceFragment;
 import com.example.sns_project_nfc.fragment.UserInfoFragment;
 import com.example.sns_project_nfc.fragment.UserListFragment;
+import com.example.sns_project_nfc.fragment.nfcFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,8 +28,6 @@ public class MainActivity extends BasicActivity {                               
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //툴바 이름
-        setToolbarTitle(getResources().getString(R.string.app_name));
 
         init();
     }
@@ -87,9 +86,9 @@ public class MainActivity extends BasicActivity {                               
                 }
             });
 
-            HomeFragment homeFragment = new HomeFragment();
+            nfcFragment nfcFragment = new nfcFragment();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, homeFragment)
+                    .replace(R.id.container, nfcFragment)
                     .commit();
 
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);            // part22 : 바텀 네비게이션바  설정 (47'20")
@@ -97,11 +96,16 @@ public class MainActivity extends BasicActivity {                               
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
-
-                        case R.id.home:
-                            HomeFragment homeFragment = new HomeFragment();
+                        case R.id.nfc:
+                            nfcFragment nfcFragment = new nfcFragment();
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, homeFragment)
+                                    .replace(R.id.container, nfcFragment)
+                                    .commit();
+                            return true;
+                        case R.id.announce:
+                            AnnounceFragment announceFragment = new AnnounceFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.container, announceFragment)
                                     .commit();
                             return true;
                         case R.id.myInfo:

@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sns_project_nfc.PostInfo;
+import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
 import com.example.sns_project_nfc.activity.WritePostActivity;
 import com.example.sns_project_nfc.adapter.HomeAdapter;
@@ -29,15 +32,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HomeFragment extends Fragment {
+public class AnnounceFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private FirebaseFirestore firebaseFirestore;
     private HomeAdapter homeAdapter;
-    private ArrayList<PostInfo> postList;
+    private ArrayList<AnnunceInfo> postList;
     private boolean updating;
     private boolean topScrolled;
 
-    public HomeFragment() {                                                                                 // part22 : 프레그먼트로 내용 이전 (21'40")
+    public AnnounceFragment() {                                                                                 // part22 : 프레그먼트로 내용 이전 (21'40")
          // Required empty public constructor
     }
 
@@ -52,6 +55,12 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        Toolbar myToolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setTitle("공지사항");
+        }
         firebaseFirestore = FirebaseFirestore.getInstance();
         postList = new ArrayList<>();
         homeAdapter = new HomeAdapter(getActivity(), postList);
@@ -141,8 +150,8 @@ public class HomeFragment extends Fragment {
     OnPostListener onPostListener = new OnPostListener() {
         @Override
         // part21 : position 대신 postInfo 자체를 가져옴 (56'10")
-        public void onDelete(PostInfo postInfo) {                                                       // part17 : DB에서의 삭제 (12'50")
-            postList.remove(postInfo);
+        public void onDelete(AnnunceInfo annunceInfo) {                                                       // part17 : DB에서의 삭제 (12'50")
+            postList.remove(annunceInfo);
             homeAdapter.notifyDataSetChanged();
 
             Log.e("로그: ","삭제 성공");
@@ -168,7 +177,7 @@ public class HomeFragment extends Fragment {
                             }                                                                               // part16 : postsUpdate로 이동 (15'50")
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                postList.add(new PostInfo(                                                          //postList로 데이터를 넣는다.
+                                postList.add(new AnnunceInfo(                                                          //postList로 데이터를 넣는다.
                                         document.getData().get("title").toString(),
                                         (ArrayList<String>) document.getData().get("contents"),
                                         (ArrayList<String>) document.getData().get("formats"),

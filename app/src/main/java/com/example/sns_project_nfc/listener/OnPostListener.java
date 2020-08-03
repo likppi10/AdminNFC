@@ -1,8 +1,8 @@
 package com.example.sns_project_nfc.listener;
 
-import com.example.sns_project_nfc.PostInfo;
+import com.example.sns_project_nfc.AnnunceInfo;
 
 public interface OnPostListener {
-    void onDelete(PostInfo postInfo);
+    void onDelete(AnnunceInfo annunceInfo);
     void onModify();
 }

@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +46,12 @@ public class UserInfoFragment extends Fragment {
         final TextView phoneNumberTextView = view.findViewById(R.id.phoneNumberTextView);
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
         final TextView addressTextView = view.findViewById(R.id.addressTextView);
+        Toolbar myToolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setTitle("체크리스트");
+        }
 
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());       // part22 : 유저 정보 프레그먼트 (61')
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

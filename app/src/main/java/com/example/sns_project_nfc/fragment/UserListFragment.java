@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sns_project_nfc.PostInfo;
+import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
 import com.example.sns_project_nfc.UserInfo;
 import com.example.sns_project_nfc.activity.WritePostActivity;
@@ -52,6 +55,12 @@ public class UserListFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+        Toolbar myToolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setTitle("설정");
+        }
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         userList = new ArrayList<>();
@@ -138,8 +147,8 @@ public class UserListFragment extends Fragment {
 
     OnPostListener onPostListener = new OnPostListener() {
         @Override
-        public void onDelete(PostInfo postInfo) {
-            userList.remove(postInfo);
+        public void onDelete(AnnunceInfo annunceInfo) {
+            userList.remove(annunceInfo);
             userListAdapter.notifyDataSetChanged();
 
             Log.e("로그: ","삭제 성공");

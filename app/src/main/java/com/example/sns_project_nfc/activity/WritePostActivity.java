@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
-import com.example.sns_project_nfc.PostInfo;
+import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
 import com.example.sns_project_nfc.view.ContentsItemView;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,7 +57,7 @@ public class WritePostActivity extends BasicActivity {
     private EditText selectedEditText;
     private EditText contentsEditText;
     private EditText titleEditText;
-    private PostInfo postInfo;
+    private AnnunceInfo annunceInfo;
     private int pathCount, successCount;
 
     @Override
@@ -93,7 +93,7 @@ public class WritePostActivity extends BasicActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        postInfo = (PostInfo) getIntent().getSerializableExtra("postInfo");                       // part17 : postInfo의 정체!!!!!!!!!!!!!!!!!!(29')
+        annunceInfo = (AnnunceInfo) getIntent().getSerializableExtra("postInfo");                       // part17 : postInfo의 정체!!!!!!!!!!!!!!!!!!(29')
         postInit();
     }
 
@@ -171,7 +171,7 @@ public class WritePostActivity extends BasicActivity {
                     final View selectedView = (View) selectedImageVIew.getParent();                     // part12 : parents를 먼저 불러옴
                     String path = pathList.get(parent.indexOfChild(selectedView) - 1);                  // part20 : 172,173줄 없으면 사진 택하고 바로 삭제시 에러 : 아직 안 올라갔기 째문
                     if(isStorageUrl(path)){                                                                         // 해당하는 조건문
-                        StorageReference desertRef = storageRef.child("posts/" + postInfo.getId() + "/" + storageUrlToName(path));
+                        StorageReference desertRef = storageRef.child("posts/" + annunceInfo.getId() + "/" + storageUrlToName(path));
                         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {             // part17 : 스토리지에서 삭제 (56')
@@ -217,8 +217,8 @@ public class WritePostActivity extends BasicActivity {
             FirebaseStorage storage = FirebaseStorage.getInstance();                                    // part12 :
             StorageReference storageRef = storage.getReference();
             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-            final DocumentReference documentReference =  postInfo== null ? firebaseFirestore.collection("posts").document() : firebaseFirestore.collection("posts").document(postInfo.getId());     //postInfo가 null이면 그냥 추가 되고 아니면 해당 아게시물 아이디에 해당하는 것으로 추가
-            final Date date = postInfo == null ? new Date() : postInfo.getCreatedAt();          // part17 : null이면 = 새 날짜 / 아니면 = getCreatedAt 날짜 이거 해줘야 수정한게 제일 위로 가지 않음 ((31')
+            final DocumentReference documentReference =  annunceInfo == null ? firebaseFirestore.collection("posts").document() : firebaseFirestore.collection("posts").document(annunceInfo.getId());     //postInfo가 null이면 그냥 추가 되고 아니면 해당 아게시물 아이디에 해당하는 것으로 추가
+            final Date date = annunceInfo == null ? new Date() : annunceInfo.getCreatedAt();          // part17 : null이면 = 새 날짜 / 아니면 = getCreatedAt 날짜 이거 해줘야 수정한게 제일 위로 가지 않음 ((31')
             for (int i = 0; i < parent.getChildCount(); i++) {                                              // part11 : 안의 자식뷰만큼 반복 (21'15")
                 LinearLayout linearLayout = (LinearLayout) parent.getChildAt(i);
                 for (int ii = 0; ii < linearLayout.getChildCount(); ii++) {
@@ -260,8 +260,8 @@ public class WritePostActivity extends BasicActivity {
                                             successCount--;                                                 // part11 : SUCCEESSCOUNT 개의 사진 (37')
                                             contentsList.set(index, uri.toString());                        // part11 : 인덱스를 받아서 URi저장 ( 36'40")
                                             if (successCount == 0) {
-                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
-                                                storeUpload(documentReference, postInfo);
+                                                AnnunceInfo annunceInfo = new AnnunceInfo(title, contentsList, formatList, user.getUid(), date);
+                                                storeUpload(documentReference, annunceInfo);
                                             }
                                         }
                                     });
@@ -275,22 +275,22 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (successCount == 0) {
-                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
+                storeUpload(documentReference, new AnnunceInfo(title, contentsList, formatList, user.getUid(), date));
             }
         } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");
         }
     }
 
-    private void storeUpload(DocumentReference documentReference, final PostInfo postInfo) {
-        documentReference.set(postInfo.getPostInfo())
+    private void storeUpload(DocumentReference documentReference, final AnnunceInfo annunceInfo) {
+        documentReference.set(annunceInfo.getPostInfo())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                         loaderLayout.setVisibility(View.GONE);
                         Intent resultIntent = new Intent();
-                        resultIntent.putExtra("postinfo", postInfo);                                    // part19 : 수정 후 수정된 정보 즉시 반영 (80')
+                        resultIntent.putExtra("postinfo", annunceInfo);                                    // part19 : 수정 후 수정된 정보 즉시 반영 (80')
                         setResult(Activity.RESULT_OK, resultIntent);
                         finish();
                     }
@@ -305,9 +305,9 @@ public class WritePostActivity extends BasicActivity {
     }
 
     private void postInit() {                                                                               // part17 : (33')
-        if (postInfo != null) {                                                                             //수정 버튼을 눌러서 들어왔을 때 null이 아니면 == 나 수정 하러 왔음 >> 화면에는 수정하고자하는 게시물의 정보들이 띄워져있음
-            titleEditText.setText(postInfo.getTitle());
-            ArrayList<String> contentsList = postInfo.getContents();
+        if (annunceInfo != null) {                                                                             //수정 버튼을 눌러서 들어왔을 때 null이 아니면 == 나 수정 하러 왔음 >> 화면에는 수정하고자하는 게시물의 정보들이 띄워져있음
+            titleEditText.setText(annunceInfo.getTitle());
+            ArrayList<String> contentsList = annunceInfo.getContents();
             for (int i = 0; i < contentsList.size(); i++) {
                 String contents = contentsList.get(i);
                 if (isStorageUrl(contents)) {

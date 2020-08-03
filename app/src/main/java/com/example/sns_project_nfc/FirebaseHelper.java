@@ -30,12 +30,12 @@ public class FirebaseHelper {                                                   
         this.onPostListener = onPostListener;
     }
 
-    public void storageDelete(final PostInfo postInfo){                                                 // part16: 스토리지의 삭제 (13')
+    public void storageDelete(final AnnunceInfo annunceInfo){                                                 // part16: 스토리지의 삭제 (13')
         FirebaseStorage storage = FirebaseStorage.getInstance();                                        // part17 : 스토리지 삭제 (문서) (19'50")
         StorageReference storageRef = storage.getReference();
 
-        final String id = postInfo.getId();
-        ArrayList<String> contentsList = postInfo.getContents();
+        final String id = annunceInfo.getId();
+        ArrayList<String> contentsList = annunceInfo.getContents();
         for (int i = 0; i < contentsList.size(); i++) {
             String contents = contentsList.get(i);
             if (isStorageUrl(contents)) {
@@ -45,7 +45,7 @@ public class FirebaseHelper {                                                   
                     @Override
                     public void onSuccess(Void aVoid) {
                         successCount--;
-                        storeDelete(id, postInfo);
+                        storeDelete(id, annunceInfo);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -58,7 +58,7 @@ public class FirebaseHelper {                                                   
         //storeDelete(id, postInfo); 호,,
     }
 
-    private void storeDelete(final String id, final PostInfo postInfo) {                                     // part15 : (((DB에서 삭제))) 스토리지에서는 삭제 x
+    private void storeDelete(final String id, final AnnunceInfo annunceInfo) {                                     // part15 : (((DB에서 삭제))) 스토리지에서는 삭제 x
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         if (successCount == 0) {
             firebaseFirestore.collection("posts").document(id)
@@ -67,7 +67,7 @@ public class FirebaseHelper {                                                   
                         @Override
                         public void onSuccess(Void aVoid) {
                             showToast(activity, "게시글을 삭제하였습니다.");
-                            onPostListener.onDelete(postInfo);
+                            onPostListener.onDelete(annunceInfo);
                             //postsUpdate();
                         }
                     })

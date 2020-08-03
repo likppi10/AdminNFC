@@ -17,7 +17,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sns_project_nfc.FirebaseHelper;
-import com.example.sns_project_nfc.PostInfo;
+import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
 import com.example.sns_project_nfc.activity.PostActivity;
 import com.example.sns_project_nfc.activity.WritePostActivity;
@@ -28,7 +28,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer;
 import java.util.ArrayList;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder> {
-    private ArrayList<PostInfo> mDataset;
+    private ArrayList<AnnunceInfo> mDataset;
     private Activity activity;
     private FirebaseHelper firebaseHelper;
     private ArrayList<ArrayList<SimpleExoPlayer>> playerArrayListArrayList = new ArrayList<>();
@@ -42,7 +42,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         }
     }
 
-    public HomeAdapter(Activity activity, ArrayList<PostInfo> myDataset) {
+    public HomeAdapter(Activity activity, ArrayList<AnnunceInfo> myDataset) {
         this.mDataset = myDataset;
         this.activity = activity;
 
@@ -89,18 +89,18 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         TextView titleTextView = cardView.findViewById(R.id.titleTextView);
 
         Log.d("로그","로딩 22222");
-        PostInfo postInfo = mDataset.get(position);                                                         //HomeFragment에서 PostInfo(mDaset)에 넣은 데이터 get
-        titleTextView.setText(postInfo.getTitle());
+        AnnunceInfo annunceInfo = mDataset.get(position);                                                         //HomeFragment에서 PostInfo(mDaset)에 넣은 데이터 get
+        titleTextView.setText(annunceInfo.getTitle());
 
         ReadContentsVIew readContentsVIew = cardView.findViewById(R.id.readContentsView);                   //contentsLayout에다가 날짜포함
         LinearLayout contentsLayout = cardView.findViewById(R.id.contentsLayout);
 
-        if (contentsLayout.getTag() == null || !contentsLayout.getTag().equals(postInfo)) {                 // part16 : 게시물 개수에 변화가 있을 때만 실행..? (26'40")
-            contentsLayout.setTag(postInfo);
+        if (contentsLayout.getTag() == null || !contentsLayout.getTag().equals(annunceInfo)) {                 // part16 : 게시물 개수에 변화가 있을 때만 실행..? (26'40")
+            contentsLayout.setTag(annunceInfo);
             contentsLayout.removeAllViews();                                                                // part14: 다 지웠다가 다시 생성
 
             readContentsVIew.setMoreIndex(MORE_INDEX);                                                      // part19 : 위에서 두개 까지만 표시
-            readContentsVIew.setPostInfo(postInfo);
+            readContentsVIew.setPostInfo(annunceInfo);
 
             ArrayList<SimpleExoPlayer> playerArrayList = readContentsVIew.getPlayerArrayList();             // part21 : 폰이 꺼지거나 하면 동영상 멈추게 하기 (9')
             if(playerArrayList != null){
@@ -137,9 +137,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         popup.show();
     }
 
-    private void myStartActivity(Class c, PostInfo postInfo) {                                          // part : 여기서는 수정 버튼을 눌렀을 때 게시물의 정보도 같이 넘겨준다.
+    private void myStartActivity(Class c, AnnunceInfo annunceInfo) {                                          // part : 여기서는 수정 버튼을 눌렀을 때 게시물의 정보도 같이 넘겨준다.
         Intent intent = new Intent(activity, c);
-        intent.putExtra("postInfo", postInfo);
+        intent.putExtra("postInfo", annunceInfo);
         activity.startActivity(intent);
     }
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.example.sns_project_nfc.PostInfo;
+import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -58,14 +58,14 @@ public class ReadContentsVIew extends LinearLayout {
         this.moreIndex = moreIndex;                                                                                 // part19 : 어댑터에서도 쓸 수 있게 (46'50")
     }
 
-    public void setPostInfo(PostInfo postInfo){                                                                                     // part19 : setPostInfo 작성 (34'20")
+    public void setPostInfo(AnnunceInfo annunceInfo){                                                                                     // part19 : setPostInfo 작성 (34'20")
         TextView createdAtTextView = findViewById(R.id.createAtTextView);
-        createdAtTextView.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(postInfo.getCreatedAt()));
+        createdAtTextView.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(annunceInfo.getCreatedAt()));
 
         LinearLayout contentsLayout = findViewById(R.id.contentsLayout);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ArrayList<String> contentsList = postInfo.getContents();
-        ArrayList<String> formatList = postInfo.getFormats();
+        ArrayList<String> contentsList = annunceInfo.getContents();
+        ArrayList<String> formatList = annunceInfo.getFormats();
 
         for (int i = 0; i < contentsList.size(); i++) {                                                 // part17 : 더보기기능 추가
             if (i == moreIndex) {
