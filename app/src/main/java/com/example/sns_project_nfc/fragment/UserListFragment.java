@@ -59,7 +59,7 @@ public class UserListFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if(actionBar != null){
-            actionBar.setTitle("설정");
+            actionBar.setTitle("세대 관리");
         }
 
         firebaseFirestore = FirebaseFirestore.getInstance();

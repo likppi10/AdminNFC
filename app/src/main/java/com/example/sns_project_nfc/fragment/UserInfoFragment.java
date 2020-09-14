@@ -50,7 +50,7 @@ public class UserInfoFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if(actionBar != null){
-            actionBar.setTitle("체크리스트");
+            actionBar.setTitle("세대 인증");
         }
 
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());       // part22 : 유저 정보 프레그먼트 (61')

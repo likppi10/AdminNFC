@@ -64,7 +64,7 @@ public class WritePostActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_post);
-        setToolbarTitle("게시글 작성");
+        setToolbarTitle("공지사항 작성");
 
         parent = findViewById(R.id.contentsLayout);             //(20')
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
@@ -74,9 +74,7 @@ public class WritePostActivity extends BasicActivity {
 
         findViewById(R.id.check).setOnClickListener(onClickListener);
         findViewById(R.id.image).setOnClickListener(onClickListener);
-        findViewById(R.id.video).setOnClickListener(onClickListener);
         findViewById(R.id.imageModify).setOnClickListener(onClickListener);
-        findViewById(R.id.videoModify).setOnClickListener(onClickListener);
         findViewById(R.id.delete).setOnClickListener(onClickListener);
 
         buttonsBackgroundLayout.setOnClickListener(onClickListener);
@@ -151,9 +149,6 @@ public class WritePostActivity extends BasicActivity {
                 case R.id.image:
                     myStartActivity(GalleryActivity.class, GALLERY_IMAGE, 0);               // part12 : 실행중인 Activity의 request 값 다르게 설정 (13'41")
                     break;
-                case R.id.video:
-                    myStartActivity(GalleryActivity.class, GALLERY_VIDEO, 0);               // part12 : 실행중인 Activity의 request 값 다르게 설정 (13'41")
-                    break;
                 case R.id.buttonsBackgroundLayout:
                     if (buttonsBackgroundLayout.getVisibility() == View.VISIBLE) {
                         buttonsBackgroundLayout.setVisibility(View.GONE);                               // part12 : 실행되고나면 사라지게 설정 (15'19")
@@ -161,10 +156,6 @@ public class WritePostActivity extends BasicActivity {
                     break;
                 case R.id.imageModify:
                     myStartActivity(GalleryActivity.class, GALLERY_IMAGE, 1);               // part12 : 실행중인 Activity의 request 값 다르게 설정 (13'41")
-                    buttonsBackgroundLayout.setVisibility(View.GONE);
-                    break;
-                case R.id.videoModify:
-                    myStartActivity(GalleryActivity.class, GALLERY_VIDEO, 1);               // part12 : 실행중인 Activity의 request 값 다르게 설정 (13'41")
                     buttonsBackgroundLayout.setVisibility(View.GONE);
                     break;
                 case R.id.delete:                                                                       // part12 : 작성중인 게시물에서 사진 빼기 (12'30")
@@ -235,8 +226,6 @@ public class WritePostActivity extends BasicActivity {
                         contentsList.add(path);
                         if(isImageFile(path)){
                             formatList.add("image");
-                        }else if (isVideoFile(path)){
-                            formatList.add("video");
                         }else{
                             formatList.add("text");     //사진 아래의 텍스트
                         }
