@@ -22,6 +22,10 @@ public class Util {                                                             
     public static boolean isStorageUrl(String url){                                                             // part17 : 스토리지 주소에 대한 등록 [SHA1코드같은..] (16'45")
         return Patterns.WEB_URL.matcher(url).matches() && url.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-nfc-8334a.appspot.com/o/posts");
     }
+    public static boolean userStorageUrl(String url){                                                             // part17 : 스토리지 주소에 대한 등록 [SHA1코드같은..] (16'45")
+        return Patterns.WEB_URL.matcher(url).matches() && url.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-nfc-8334a.appspot.com/o/users");
+    }
+
 
     public static String storageUrlToName(String url){
         return url.split("\\?")[0].split("%2F")[url.split("\\?")[0].split("%2F").length - 1];

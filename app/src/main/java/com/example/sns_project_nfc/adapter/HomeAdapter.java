@@ -142,16 +142,4 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         intent.putExtra("postInfo", annunceInfo);
         activity.startActivity(intent);
     }
-
-    public void playerStop(){                                                                           // part21 :  폰이 꺼질시 종졍상 정지 (11'40")
-        for(int i = 0; i < playerArrayListArrayList.size(); i++){
-            ArrayList<SimpleExoPlayer> playerArrayList = playerArrayListArrayList.get(i);
-            for(int ii = 0; ii < playerArrayList.size(); ii++){
-                SimpleExoPlayer player = playerArrayList.get(ii);
-                if(player.getPlayWhenReady()){
-                    player.setPlayWhenReady(false);
-                }
-            }
-        }
-    }
 }

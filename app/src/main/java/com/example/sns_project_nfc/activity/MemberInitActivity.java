@@ -58,7 +58,6 @@ public class MemberInitActivity extends BasicActivity {
         profileImageVIew.setOnClickListener(onClickListener);
 
         findViewById(R.id.checkButton).setOnClickListener(onClickListener);
-        findViewById(R.id.picture).setOnClickListener(onClickListener);
         findViewById(R.id.gallery).setOnClickListener(onClickListener);
     }
 
@@ -96,9 +95,6 @@ public class MemberInitActivity extends BasicActivity {
                 case R.id.buttonsBackgroundLayout:                                                      // part20 : 다른데 누르면 buttonBackgroundLayout 사라지게 해줌 (48')
                     buttonBackgroundLayout.setVisibility(View.GONE);
                     break;
-                case R.id.picture:                                                                      // part7 : 프로필 사진 등록시 카메라 기능으로 사진을 찍을 시
-                    myStartActivity(CameraActivity.class);
-                    break;
                 case R.id.gallery:                                                                      // part7 : 프로필 사진 등록시 앨범에서 고를 시
                     myStartActivity(GalleryActivity.class);
                     break;
@@ -111,6 +107,9 @@ public class MemberInitActivity extends BasicActivity {
         final String phoneNumber = ((EditText) findViewById(R.id.phoneNumberEditText)).getText().toString();
         final String birthDay = ((EditText) findViewById(R.id.birthDayEditText)).getText().toString();
         final String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
+        final String building = "-";
+        final String unit = "-";
+        final String authState = "ADMINISTER";
 
         if (name.length() > 0 && phoneNumber.length() > 9 && birthDay.length() > 5 && address.length() > 0) {
             loaderLayout.setVisibility(View.VISIBLE);
@@ -121,7 +120,7 @@ public class MemberInitActivity extends BasicActivity {
             final Date createdID = new Date();                                                              // + : 사용자 리스트 수정 (현재 날짜 받아오기 [ 사진마다 달라서 그때 그댸 불르기])
 
             if (profilePath == null) {                                                                      // part5 : 데이터 추가 (9'10")
-                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, createdID, address);          // + : 사용자 리스트 수정 (가입날짜 추가[사진 없는 버전])
+                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, createdID, address, building, unit, authState, user.getUid());          // + : 사용자 리스트 수정 (가입날짜 추가[사진 없는 버전])
                 storeUploader(userInfo);
             } else {
                 try {
@@ -141,7 +140,7 @@ public class MemberInitActivity extends BasicActivity {
                             if (task.isSuccessful()) {
                                 Uri downloadUri = task.getResult();                                         // part7 : 입력한 회원정보를 DB에 저장 (28')
                                 Log.d("LOOG", " " + task.getResult().toString());
-                                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, address, createdID, downloadUri.toString());      // + : 사용자 리스트 수정 (가입날짜 추가)
+                                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, address, building, unit, createdID, downloadUri.toString(), authState,user.getUid());      // + : 사용자 리스트 수정 (가입날짜 추가)
                                 storeUploader(userInfo);
                             } else {
                                 showToast(MemberInitActivity.this, "회원정보를 보내는데 실패하였습니다.");

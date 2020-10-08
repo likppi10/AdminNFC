@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
+import com.example.sns_project_nfc.UserInfo;
 import com.example.sns_project_nfc.activity.WritePostActivity;
 import com.example.sns_project_nfc.adapter.HomeAdapter;
 import com.example.sns_project_nfc.listener.OnPostListener;
@@ -127,7 +128,6 @@ public class AnnounceFragment extends Fragment {
     @Override
     public void onPause(){
         super.onPause();
-        homeAdapter.playerStop();                                                                       //part21 : 앱정지시 비디오 정지 실행문 (15'10")
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -155,6 +155,9 @@ public class AnnounceFragment extends Fragment {
             homeAdapter.notifyDataSetChanged();
 
             Log.e("로그: ","삭제 성공");
+        }
+        public void onDeleteuser(UserInfo userInfo){
+
         }
 
         @Override

@@ -1,11 +1,16 @@
 package com.example.sns_project_nfc.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.example.sns_project_nfc.R;
 import com.example.sns_project_nfc.fragment.AnnounceFragment;
@@ -28,7 +33,6 @@ public class MainActivity extends BasicActivity {                               
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         init();
     }
 
@@ -86,22 +90,26 @@ public class MainActivity extends BasicActivity {                               
                 }
             });
 
-            nfcFragment nfcFragment = new nfcFragment();
+            AnnounceFragment announceFragment = new AnnounceFragment();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, nfcFragment)
+                    .replace(R.id.container, announceFragment)
                     .commit();
+//            UserInfoFragment userInfoFragment = new UserInfoFragment();
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.container, userInfoFragment)
+//                    .commit();
 
             BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);            // part22 : 바텀 네비게이션바  설정 (47'20")
             bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.nfc:
-                            nfcFragment nfcFragment = new nfcFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, nfcFragment)
-                                    .commit();
-                            return true;
+//                        case R.id.nfc:
+//                            nfcFragment nfcFragment = new nfcFragment();
+//                            getSupportFragmentManager().beginTransaction()
+//                                    .replace(R.id.container, nfcFragment)
+//                                    .commit();
+//                            return true;
                         case R.id.announce:
                             AnnounceFragment announceFragment = new AnnounceFragment();
                             getSupportFragmentManager().beginTransaction()

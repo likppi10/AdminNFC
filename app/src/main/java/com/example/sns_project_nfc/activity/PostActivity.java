@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.example.sns_project_nfc.FirebaseHelper;
 import com.example.sns_project_nfc.AnnunceInfo;
 import com.example.sns_project_nfc.R;
+import com.example.sns_project_nfc.UserInfo;
 import com.example.sns_project_nfc.listener.OnPostListener;
 import com.example.sns_project_nfc.view.ReadContentsVIew;
 
@@ -72,6 +73,8 @@ public class PostActivity extends BasicActivity {                               
         @Override
         public void onDelete(AnnunceInfo annunceInfo) {
             Log.e("로그 ","삭제 성공");
+        }
+        public void onDeleteuser(UserInfo userInfo){
         }
 
         @Override
